@@ -24,7 +24,7 @@ namespace lab3_card_game
         public VALUE MyValue { get; set; }
         public override string ToString()
         {
-            return MySuit.ToString().ToUpper() +""+ MyValue.ToString();
+            return MySuit.ToString().ToUpper() +"of"+ MyValue.ToString();
 
         }
 

@@ -8,7 +8,7 @@ namespace lab3_card_game
 {
     class Players
     {
-        List<Player> players;
+        public List<Player> players;
 
 
         public Players()
@@ -19,66 +19,60 @@ namespace lab3_card_game
         }
         public void AddPlayers(int n)
         {
-            for (int i = 0; i < n-1; i++)
+            for (int i = 0; i < n; i++)
             {
 
                 Player newPlayer = new Player();
                 newPlayer.Deal();
                 players.Add(newPlayer);
                 
+                
 
             }
             
 
         }
-        public void RemovePlayer(int n)
-        {
-         
-            players.RemoveAt(n - 1);
-        }
+     
         public void decideWinner()
         {
-            foreach (var player in players)
-            {
-                player.Deal();
-            }
+           
             SortPlayerList();
-            Console.WriteLine(players[players.Count-1]);
+            Console.WriteLine(players[players.Count-1].ID);
 
         }
-        public void printResults()
-        {
-            foreach (var player in  players)
-            { 
-                player.print();
-                Console.WriteLine(player.HandCount);
-            }
-         
-
-
-        }
+   
         private bool GreaterThan(Player a, Player b)
         {
-            if (a.playerHandevaluator.evaluatedHand()>b.playerHandevaluator.evaluatedHand())
+            //create player's computer's evaluation objects (passing SORTED hand to constructor)
+            HandEvaluator playera = new HandEvaluator(a.sortedplayerHand);
+            HandEvaluator playerb = new HandEvaluator(b.sortedplayerHand);
+
+            //get the player;s and computer's hand
+            Hand playerAHand =playera.evaluatedHand();
+            Hand playerBHand = playerb.evaluatedHand();
+
+
+
+            if (playerAHand>playerBHand)
             {
                 return true;
             }
-            else if (a.playerHandevaluator.evaluatedHand() < b.playerHandevaluator.evaluatedHand())
+            else if (playerAHand < playerBHand)
             {
                 return false;
             }
             else //if the hands are the same, evaluate the values
             {
                 //first evaluate who has higher value of poker hand
-                if (a.playerHandevaluator.handValue.Total > b.playerHandevaluator.handValue.Total)
+                if (playera.handValue.Total > playerb.handValue.Total)
                     return true;
-                else if (a.playerHandevaluator.handValue.Total < b.playerHandevaluator.handValue.Total)
+                else if (playera.handValue.Total < playerb.handValue.Total)
                     return false;
                 //if both hanve the same poker hand (for example, both have a pair of queens), 
                 //than the player with the next higher card wins
-                else if (a.playerHandevaluator.handValue.HighCard > b.playerHandevaluator.handValue.HighCard)
+                else if (playera.handValue.HighCard > playerb.handValue.HighCard)
                     return true;
-                else if (a.playerHandevaluator.handValue.HighCard < b.playerHandevaluator.handValue.HighCard)
+                else if (playera.handValue.HighCard <playerb.handValue.HighCard)
                     return false;
                 else
                     Console.WriteLine("DRAW, no one wins!");

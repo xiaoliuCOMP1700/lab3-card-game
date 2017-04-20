@@ -3,51 +3,65 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace lab3_card_game
 {
     class Deck:Card
     {
         const int NUM_OF_CARDS = 52;
-        Card[] deck;
+        public List<Card> deck;
         public Deck()
         {
-            deck = new Card[NUM_OF_CARDS];
+            deck = new List<Card>();
 
         }
-        
-        public void setUpDeck()
+        public List<Card> getDeck { get { return deck; } }
+
+        public  void setUpDeck()
         {
             int i = 0;
             foreach (SUIT s in Enum.GetValues(typeof(SUIT)))
             {
                 foreach (VALUE v in Enum.GetValues(typeof(VALUE)))
                 {
-                    deck[i] = new Card { MySuit=s, MyValue=v };
+                    deck.Add(new Card { MySuit = s, MyValue = v }) ;
                     i++;
                 }
             }
+            Debug.WriteLine(i);
 
             shuffleDeck();
+           
         }
 
-        public Card[] getDeck { get { return deck; } } //get current deck
+      
         public void shuffleDeck()
         {
             Random rand = new Random();
             Card temp;
+            int t;
 
-            //run the shuffle 1000 times
-            for (int shuffleTimes = 0; shuffleTimes < 1000; shuffleTimes++)
+            for (int i = 0; i < deck.Count; i++)
             {
-                for (int i = 0; i < NUM_OF_CARDS; i++)
-                {
-                    //swap the cards
-                    int secondCardIndex = rand.Next(13);
-                    temp = deck[i];
-                    deck[i] = deck[secondCardIndex];
-                    deck[secondCardIndex] = temp;
-                }
+                t = rand.Next(0, 52);
+                temp = deck[i];
+                deck[i] = deck[t];
+                deck[t] = deck[i];
+
+
+            }
+
+           
+            
+
+        }
+        public void DrawCards(Player a)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                a.playerHand[i] = deck[i];
+                deck.Remove(deck[i]);
             }
 
         }

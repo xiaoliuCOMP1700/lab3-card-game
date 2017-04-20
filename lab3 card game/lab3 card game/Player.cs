@@ -12,32 +12,38 @@ namespace lab3_card_game
         public Card[] sortedplayerHand;
         public Hand HandCount;
         public HandEvaluator playerHandevaluator;
+        public int ID;
+       
         
         public Player()
             {
                 playerHand=new Card[5];
             sortedplayerHand = new Card[5];
             playerHandevaluator = new HandEvaluator(sortedplayerHand);
-          
+            HandCount = new Hand();
+            ID = 0;
             
             }
 
         public void Deal()
         {
-            setUpDeck();
-            getHand();
+           
             sortCards();
-
+            HandCount=playerHandevaluator.evaluatedHand();
+           
         }
-      
-        private void getHand()
+
+        public void getHand()
         {
-            //5 cards for the player
-            for (int i = 0; i < 5; i++)
-                playerHand[i] = getDeck[i];
+            DrawCards(this);
+                
+            ////5 cards for the player
+            //for (int i = 0; i < 5; i++)
+            //    playerHand[i] = getDeck[i];
 
-         
+          
         }
+
         private void sortCards()
         {
             var queryPlayer = from hand in playerHand
@@ -50,18 +56,24 @@ namespace lab3_card_game
                 sortedplayerHand[index] = element;
                 index++;
             }
-
+            
          
         }
 
         public void print()
         {
-            for (int i = 0; i < sortedplayerHand.Length; i++)
-            {
-                Console.WriteLine(sortedplayerHand[i]);
-            }
 
+
+            for (int i = 0; i < playerHand.Length; i++)
+            {
+                Console.WriteLine(playerHand[i] + "         " + sortedplayerHand[i]);
+               
+            }
+            Console.WriteLine(HandCount);
+            Console.WriteLine("");
         }
+
+     
 
     }
     
